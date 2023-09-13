@@ -68,6 +68,10 @@ dependencies {
     implementation(libs.androidx.drawerlayout)
     implementation(libs.timber)
     implementation(libs.kotlinx.coroutines)
+    implementation(libs.gson)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter)
+    implementation(libs.okHttpLogging)
     kapt(libs.dagger.compiler)
 
     testImplementation(libs.junit)

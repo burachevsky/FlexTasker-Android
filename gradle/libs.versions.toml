@@ -12,6 +12,8 @@ lifecycle = "2.6.2"
 okhttp = "4.10.0"
 material = "1.9.0"
 navigation = "2.7.2"
+retrofit = "2.9.0"
+okHttp = "4.11.0"
 timber = "5.0.1"
 viewpager2 = "1.0.0"
 junit = "4.13.2"
@@ -41,6 +43,9 @@ dagger-compiler = { group = "com.google.dagger", name = "dagger-compiler", versi
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 viewbindingdelegate = { group = "com.github.kirich1409", name = "viewbindingpropertydelegate-noreflection", version.ref = "by-view-binding" }
 kotlinx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit"}
+retrofit-converter = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit"}
+okHttpLogging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okHttp"}
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 junit-ext = { group = "androidx.test.ext", name = "junit", version.ref = "junit" }
 espresso = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso"}
