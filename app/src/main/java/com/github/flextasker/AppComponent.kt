@@ -1,6 +1,7 @@
 package com.github.flextasker
 
 import android.content.Context
+import com.github.flextasker.feature.main.MainComponent
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -19,4 +20,6 @@ interface AppComponent {
     }
 
     fun inject(activity: AppActivity)
+
+    fun mainComponent(): MainComponent
 }
