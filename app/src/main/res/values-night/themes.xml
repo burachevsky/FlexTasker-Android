@@ -33,6 +33,8 @@
         <item name="windowNoTitle">true</item>
         <item name="android:windowLightStatusBar">false</item>
 
+        <item name="android:textViewStyle">@style/TextAppearance.FlexTasker.Body</item>
+
     </style>
 
     <style name="Theme.FlexTasker.NoDynamicColors">

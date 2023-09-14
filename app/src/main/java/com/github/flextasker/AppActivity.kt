@@ -2,6 +2,7 @@ package com.github.flextasker
 
 import android.os.Build
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowInsetsCompat
@@ -37,6 +38,10 @@ class AppActivity : AppCompatActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as App).appComponent.inject(this)
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+        )
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_app)
 
