@@ -1,6 +1,6 @@
-package com.github.flextasker.core.model
+package com.github.flextasker.core.api.model
 
-data class Task(
+data class NetworkTask(
     val id: Long,
     val name: String,
     val description: String,
