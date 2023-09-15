@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">FlexTasker</string>
+
+    <string name="default_list_name">My tasks</string>
+    <string name="new_task">New task</string>
+    <string name="settings">Settings</string>
 </resources>

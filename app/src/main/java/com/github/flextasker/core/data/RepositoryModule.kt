@@ -1,7 +1,18 @@
 package com.github.flextasker.core.data
 
+import com.github.flextasker.core.data.repository.TaskListRepositoryImpl
+import com.github.flextasker.core.data.repository.TaskRepositoryImpl
+import com.github.flextasker.core.domain.repository.TaskListRepository
+import com.github.flextasker.core.domain.repository.TaskRepository
+import dagger.Binds
 import dagger.Module
 
 @Module
 abstract class RepositoryModule {
+
+    @Binds
+    abstract fun bindTaskRepository(impl: TaskRepositoryImpl): TaskRepository
+
+    @Binds
+    abstract fun bindTaskListRepository(impl: TaskListRepositoryImpl): TaskListRepository
 }
