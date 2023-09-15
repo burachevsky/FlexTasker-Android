@@ -17,6 +17,7 @@ import com.github.flextasker.core.ui.ext.applicationAs
 import com.github.flextasker.core.ui.ext.collectOnStarted
 import com.github.flextasker.core.ui.ext.verticalLinearLayoutManager
 import com.github.flextasker.core.ui.recycler.CompositeAdapter
+import com.github.flextasker.core.ui.utils.setupPullToRefresh
 import com.github.flextasker.databinding.FragmentMainBinding
 import com.github.flextasker.feature.main.item.TaskItem
 import com.github.flextasker.feature.main.item.TaskItemAdapter
@@ -59,6 +60,8 @@ class MainFragment : Fragment(R.layout.fragment_main),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setupPullToRefresh(binding.swipeRefreshLayout, viewModel)
 
         binding.bottomAppBar.setBackgroundColor(SurfaceColors.SURFACE_2.getColor(requireContext()))
 

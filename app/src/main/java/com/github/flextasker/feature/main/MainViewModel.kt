@@ -11,6 +11,7 @@ import com.github.flextasker.core.ui.navigation.Navigator
 import com.github.flextasker.core.ui.recycler.ListItem
 import com.github.flextasker.core.ui.text.Txt
 import com.github.flextasker.core.ui.text.of
+import com.github.flextasker.core.ui.utils.PullToRefreshViewModel
 import com.github.flextasker.feature.main.item.TaskItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +22,7 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val getTasks: GetTasks,
     private val editTask: EditTask,
-) : ViewModel(), VM<Navigator> {
+) : ViewModel(), VM<Navigator>, PullToRefreshViewModel {
 
     override val container = viewModelContainer()
 
@@ -30,6 +31,8 @@ class MainViewModel @Inject constructor(
 
     private val _items = MutableStateFlow<List<ListItem>>(emptyList())
     val items = _items.asStateFlow()
+
+    override val isRefreshing = MutableStateFlow(false)
 
     init {
         refresh()
@@ -55,10 +58,14 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    private fun refresh() {
+    override fun refresh() {
         container.launch(Dispatchers.Main) {
-            _items.value = getTasks(listId = null, filterStarred = false)
-                .map(::TaskItem)
+            try {
+                _items.value = getTasks(listId = null, filterStarred = false)
+                    .map(::TaskItem)
+            } finally {
+                isRefreshing.value = false
+            }
         }
     }
 
