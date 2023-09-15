@@ -67,7 +67,7 @@ class MockTaskApi: TaskApi {
     private fun initialState(): List<NetworkTask> {
         return listOf(
             NetworkTask(
-                id = 1,
+                id = ++taskId,
                 name = "Task 1",
                 description = "Task 1 Description",
                 isComplete = false,
@@ -75,7 +75,7 @@ class MockTaskApi: TaskApi {
                 listId = 0,
             ),
             NetworkTask(
-                id = 2,
+                id = ++taskId,
                 name = "Task 2",
                 description = "Task 2 Description",
                 isComplete = true,
@@ -83,7 +83,7 @@ class MockTaskApi: TaskApi {
                 listId = 0,
             ),
             NetworkTask(
-                id = 3,
+                id = ++taskId,
                 name = "Task 3",
                 description = "Task 3 Description",
                 isComplete = false,
@@ -91,7 +91,7 @@ class MockTaskApi: TaskApi {
                 listId = 0,
             ),
             NetworkTask(
-                id = 4,
+                id = ++taskId,
                 name = "Task 4",
                 description = "Task 4 Description",
                 isComplete = true,

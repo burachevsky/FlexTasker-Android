@@ -31,7 +31,7 @@ class AppActivity : AppCompatActivity(),
     lateinit var viewModelFactory: ViewModelFactory<AppViewModel>
 
     override val binding by viewBinding(ActivityAppBinding::bind, R.id.appContainer)
-    override val viewModel: AppViewModel by viewModels { viewModelFactory }
+    override val viewModel by viewModels<AppViewModel> { viewModelFactory }
     override val container by viewContainer()
 
     private var contentIsSet = false
