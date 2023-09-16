@@ -3,6 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/deleteList"
+        android:icon="@drawable/ic_delete"
+        android:title="@string/delete_list"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/editList"
+        android:icon="@drawable/ic_edit"
+        android:title="@string/edit_list_name"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/newTask"
         android:icon="@drawable/ic_add_box"
         android:title="@string/new_task"

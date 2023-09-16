@@ -10,4 +10,10 @@
     <string name="save">Save</string>
     <string name="starred">Starred</string>
     <string name="create_list">Create new list</string>
+    <string name="edit_list_name">Edit list name</string>
+    <string name="delete_list">Delete list</string>
+    <string name="delete_task_list_dialog_title">Delete task list?</string>
+    <string name="delete_task_list_dialog_message">This action cannot be undone</string>
+    <string name="button_delete">Delete</string>
+    <string name="button_cancel">Cancel</string>
 </resources>
