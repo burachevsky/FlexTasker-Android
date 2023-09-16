@@ -9,4 +9,5 @@ data class EnterTextResult(
 
 object EnterTextAction {
     const val NEW_LIST = 0
+    const val EDIT_LIST = 1
 }

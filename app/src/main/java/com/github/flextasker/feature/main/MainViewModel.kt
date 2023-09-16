@@ -4,7 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.flextasker.R
 import com.github.flextasker.core.domain.usecase.CreateTaskList
+import com.github.flextasker.core.domain.usecase.DeleteTaskList
 import com.github.flextasker.core.domain.usecase.EditTask
+import com.github.flextasker.core.domain.usecase.EditTaskList
 import com.github.flextasker.core.domain.usecase.GetCurrentListInfo
 import com.github.flextasker.core.domain.usecase.GetTaskLists
 import com.github.flextasker.core.domain.usecase.GetTasks
@@ -14,6 +16,7 @@ import com.github.flextasker.core.model.TaskListInfo
 import com.github.flextasker.core.model.TaskListType
 import com.github.flextasker.core.ui.container.VM
 import com.github.flextasker.core.ui.container.viewModelContainer
+import com.github.flextasker.core.ui.event.AlertDialog
 import com.github.flextasker.core.ui.event.EnterTextAction
 import com.github.flextasker.core.ui.event.EnterTextResult
 import com.github.flextasker.core.ui.event.TaskAdded
@@ -34,6 +37,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
@@ -44,6 +48,8 @@ class MainViewModel @Inject constructor(
     private val getTaskLists: GetTaskLists,
     private val getCurrentListInfo: GetCurrentListInfo,
     private val createTaskList: CreateTaskList,
+    private val deleteTaskList: DeleteTaskList,
+    private val editTaskList: EditTaskList,
     eventBus: EventBus,
 ) : ViewModel(), VM<MainNavigator>, PullToRefreshViewModel {
 
@@ -56,6 +62,12 @@ class MainViewModel @Inject constructor(
     val drawerItems = _drawerItems.asStateFlow()
 
     private val selectedList = MutableStateFlow<DrawerMenuItem?>(null)
+
+    val selectedListType: Flow<TaskListType> = selectedList
+        .filterNotNull()
+        .map {
+            (it.type as DrawerMenuItem.Type.TaskList).list.type
+        }
 
     val selectedListName: Flow<Txt?> = selectedList.map { it?.text }
 
@@ -98,6 +110,56 @@ class MainViewModel @Inject constructor(
             selectedList.value?.type?.id?.let { listId ->
                 navigateAddTask(listId = listId)
             }
+        }
+    }
+
+    fun editList() {
+        container.navigator {
+            navigateEnterText(
+                title = Txt.of(R.string.edit_list_name),
+                initText = selectedList.value?.text,
+                actionId = EnterTextAction.EDIT_LIST
+            )
+        }
+    }
+
+    fun deleteList() {
+        container.raiseEffect {
+            AlertDialog(
+                title = Txt.of(R.string.delete_task_list_dialog_title),
+                message = Txt.of(R.string.delete_task_list_dialog_message),
+                yes = AlertDialog.Button(
+                    text = Txt.of(R.string.button_delete),
+                    action = {
+                        container.launch(Dispatchers.Main) {
+                            deleteTaskList(selectedList.value!!.type.id)
+
+                            val deletedPosition = drawerItems.value.indexOfFirst {
+                                it is DrawerMenuItem && it.type.id == selectedList.value?.type?.id
+                            }
+
+                            _drawerItems.update { list ->
+                                list.toMutableList().apply {
+                                    removeAt(deletedPosition)
+                                }
+                            }
+
+                            drawerItems.value
+                                .find {
+                                    it is DrawerMenuItem
+                                            && it.type is DrawerMenuItem.Type.TaskList
+                                            && it.type.list.type == TaskListType.DEFAULT
+                                }
+                                ?.let {
+                                    selectedList.value = it as DrawerMenuItem
+                                }
+
+                            refresh()
+                        }
+                    }
+                ),
+                no = AlertDialog.Button(Txt.of(R.string.button_cancel)),
+            )
         }
     }
 
@@ -208,6 +270,33 @@ class MainViewModel @Inject constructor(
                     }
 
                     drawerMenuItemClicked(newListPosition)
+                }
+            }
+
+            EnterTextAction.EDIT_LIST -> {
+                container.launch(Dispatchers.Main) {
+                    val updatedList = (selectedList.value!!.type as DrawerMenuItem.Type.TaskList)
+                        .list
+                        .copy(name = event.enteredText)
+
+                    editTaskList(updatedList)
+
+                    val updatedItem = selectedList.value!!.run {
+                        copy(
+                            text = Txt.of(event.enteredText),
+                            type = DrawerMenuItem.Type.TaskList(updatedList)
+                        )
+                    }
+
+                    selectedList.value = updatedItem
+
+                    _drawerItems.update { taskLists ->
+                        taskLists.map {
+                            if (it is DrawerMenuItem && it.type.id == updatedItem.type.id)
+                                updatedItem
+                            else it
+                        }
+                    }
                 }
             }
         }
