@@ -3,9 +3,12 @@ package com.github.flextasker.core.eventbus
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+import javax.inject.Singleton
 import kotlin.reflect.KClass
 
-class EventBus {
+@Singleton
+class EventBus @Inject constructor() {
 
     private val events = MutableSharedFlow<AppEvent>()
 

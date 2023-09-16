@@ -4,4 +4,8 @@
     <string name="default_list_name">My tasks</string>
     <string name="new_task">New task</string>
     <string name="settings">Settings</string>
+    <string name="newTask">New task</string>
+    <string name="description">Description</string>
+    <string name="name">Name</string>
+    <string name="save">Save</string>
 </resources>

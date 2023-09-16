@@ -1,13 +1,18 @@
 package com.github.flextasker.feature.main
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.github.flextasker.R
 import com.github.flextasker.core.domain.usecase.EditTask
 import com.github.flextasker.core.domain.usecase.GetTasks
+import com.github.flextasker.core.eventbus.EventBus
 import com.github.flextasker.core.model.Task
 import com.github.flextasker.core.ui.container.VM
 import com.github.flextasker.core.ui.container.viewModelContainer
-import com.github.flextasker.core.ui.navigation.Navigator
+import com.github.flextasker.core.ui.event.TaskAdded
+import com.github.flextasker.core.ui.event.TaskDeleted
+import com.github.flextasker.core.ui.event.TaskEvent
+import com.github.flextasker.core.ui.event.TaskUpdated
 import com.github.flextasker.core.ui.recycler.ListItem
 import com.github.flextasker.core.ui.text.Txt
 import com.github.flextasker.core.ui.text.of
@@ -22,7 +27,8 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val getTasks: GetTasks,
     private val editTask: EditTask,
-) : ViewModel(), VM<Navigator>, PullToRefreshViewModel {
+    eventBus: EventBus,
+) : ViewModel(), VM<MainNavigator>, PullToRefreshViewModel {
 
     override val container = viewModelContainer()
 
@@ -36,6 +42,10 @@ class MainViewModel @Inject constructor(
 
     init {
         refresh()
+
+        eventBus.apply {
+            subscribe(viewModelScope, ::handleTaskEvent)
+        }
     }
 
     fun onTaskClick(position: Int) {
@@ -58,6 +68,12 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun newTaskClicked() {
+        container.navigator {
+            navigateAddTask(listId = 0)
+        }
+    }
+
     override fun refresh() {
         container.launch(Dispatchers.Main) {
             try {
@@ -65,6 +81,35 @@ class MainViewModel @Inject constructor(
                     .map(::TaskItem)
             } finally {
                 isRefreshing.value = false
+            }
+        }
+    }
+
+    private fun handleTaskEvent(event: TaskEvent) {
+        when (event) {
+            is TaskAdded -> {
+                _items.update {
+                    it + TaskItem(event.task)
+                }
+            }
+
+            is TaskUpdated -> {
+                val task = event.task
+                _items.update { list ->
+                    list.map {
+                        if (it is TaskItem && it.task.id == task.id)
+                            it.copy(task = task)
+                        else it
+                    }
+                }
+            }
+
+            is TaskDeleted -> {
+                _items.update { list ->
+                    list.filter {
+                        it !is TaskItem || it.task.id != event.id
+                    }
+                }
             }
         }
     }

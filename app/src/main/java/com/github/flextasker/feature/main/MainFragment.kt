@@ -31,7 +31,7 @@ class MainFragment : Fragment(R.layout.fragment_main),
     lateinit var viewModelFactory: ViewModelFactory<MainViewModel>
 
     override val binding by viewBinding(FragmentMainBinding::bind)
-    override val viewModel: MainViewModel by viewModels { viewModelFactory }
+    override val viewModel by viewModels<MainViewModel> { viewModelFactory }
     override val container by viewContainer()
 
     private val listAdapter = CompositeAdapter(
@@ -76,6 +76,10 @@ class MainFragment : Fragment(R.layout.fragment_main),
             binding.drawerLayout.open()
         }
 
+        binding.bottomAppBarToolbar.setOnMenuItemClickListener {
+           handleContextMenuAction(it.itemId)
+        }
+
         collectOnStarted(viewModel.currentListName) { text ->
             binding.toolbar.title = text.get(requireContext())
         }
@@ -87,5 +91,12 @@ class MainFragment : Fragment(R.layout.fragment_main),
         binding.drawerRecyclerView.updatePadding(top = statusBarHeight)
         binding.toolbarLayout.updatePadding(top = statusBarHeight)
         binding.bottomAppBar.updatePadding(bottom = navigationBarHeight)
+    }
+
+    private fun handleContextMenuAction(id: Int?): Boolean {
+        when (id) {
+            R.id.newTask -> viewModel.newTaskClicked()
+        }
+        return true
     }
 }

@@ -5,9 +5,16 @@
     android:id="@+id/main"
     app:startDestination="@id/mainFragment">
 
-    <fragment android:id="@+id/mainFragment"
+    <fragment
+        android:id="@+id/mainFragment"
         android:name="com.github.flextasker.feature.main.MainFragment"
         android:label="MainFragment"
-        tools:layout="@layout/fragment_main"/>
+        tools:layout="@layout/fragment_main">
+
+        <action
+            android:id="@+id/navigateAddTask"
+            app:destination="@id/add_task"/>
+
+    </fragment>
 
 </navigation>
