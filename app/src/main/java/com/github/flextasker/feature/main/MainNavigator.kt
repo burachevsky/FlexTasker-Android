@@ -6,6 +6,7 @@ import com.github.flextasker.core.ui.constant.NavArg
 import com.github.flextasker.core.ui.constant.NavDestination
 import com.github.flextasker.core.ui.container.NavDestinationMapper
 import com.github.flextasker.core.ui.navigation.Navigator
+import com.github.flextasker.core.ui.text.ParcelableTxt
 
 class MainNavigator(
     navController: NavController,
@@ -19,4 +20,17 @@ class MainNavigator(
                 NavArg.LIST_ID to listId
             )
         )
+
+    fun navigateEnterText(
+        title: ParcelableTxt,
+        initText: ParcelableTxt? = null,
+        actionId: Int,
+    ) = navigate(
+        NavDestination.EnterText,
+        bundleOf(
+            NavArg.TITLE to title,
+            NavArg.INIT_TEXT to initText,
+            NavArg.ACTION_ID to actionId,
+        )
+    )
 }

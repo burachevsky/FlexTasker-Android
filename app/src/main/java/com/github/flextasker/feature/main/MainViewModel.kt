@@ -3,6 +3,7 @@ package com.github.flextasker.feature.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.flextasker.R
+import com.github.flextasker.core.domain.usecase.CreateTaskList
 import com.github.flextasker.core.domain.usecase.EditTask
 import com.github.flextasker.core.domain.usecase.GetCurrentListInfo
 import com.github.flextasker.core.domain.usecase.GetTaskLists
@@ -13,6 +14,8 @@ import com.github.flextasker.core.model.TaskListInfo
 import com.github.flextasker.core.model.TaskListType
 import com.github.flextasker.core.ui.container.VM
 import com.github.flextasker.core.ui.container.viewModelContainer
+import com.github.flextasker.core.ui.event.EnterTextAction
+import com.github.flextasker.core.ui.event.EnterTextResult
 import com.github.flextasker.core.ui.event.TaskAdded
 import com.github.flextasker.core.ui.event.TaskDeleted
 import com.github.flextasker.core.ui.event.TaskEvent
@@ -40,6 +43,7 @@ class MainViewModel @Inject constructor(
     private val editTask: EditTask,
     private val getTaskLists: GetTaskLists,
     private val getCurrentListInfo: GetCurrentListInfo,
+    private val createTaskList: CreateTaskList,
     eventBus: EventBus,
 ) : ViewModel(), VM<MainNavigator>, PullToRefreshViewModel {
 
@@ -65,6 +69,7 @@ class MainViewModel @Inject constructor(
 
         eventBus.apply {
             subscribe(viewModelScope, ::handleTaskEvent)
+            subscribe(viewModelScope, ::handleEnterTextResult)
         }
     }
 
@@ -90,7 +95,9 @@ class MainViewModel @Inject constructor(
 
     fun newTaskClicked() {
         container.navigator {
-            navigateAddTask(listId = 0)
+            selectedList.value?.type?.id?.let { listId ->
+                navigateAddTask(listId = listId)
+            }
         }
     }
 
@@ -99,7 +106,13 @@ class MainViewModel @Inject constructor(
         when (menuItem.type) {
             is DrawerMenuItem.Type.Button -> when (menuItem.type.id) {
                 BUTTON_CREATE_LIST -> {
-
+                    closeDrawer()
+                    container.navigator {
+                        navigateEnterText(
+                            title = Txt.of(R.string.create_list),
+                            actionId = EnterTextAction.NEW_LIST,
+                        )
+                    }
                 }
             }
 
@@ -118,11 +131,7 @@ class MainViewModel @Inject constructor(
                 }
 
                 refresh()
-
-                container.launch(Dispatchers.Main) {
-                    delay(250)
-                    container.raiseEffect(CloseDrawer)
-                }
+                closeDrawer()
             }
         }
     }
@@ -182,6 +191,28 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    private fun handleEnterTextResult(event: EnterTextResult) {
+        when (event.actionId) {
+            EnterTextAction.NEW_LIST -> {
+                container.launch(Dispatchers.Main) {
+                    val newList = createTaskList(
+                        TaskListInfo(name = event.enteredText, type = TaskListType.USER)
+                    )
+
+                    val newListPosition = drawerItems.value.indexOfLast {
+                        it is DrawerMenuItem && it.type is DrawerMenuItem.Type.TaskList
+                    } + 1
+
+                    _drawerItems.value = _drawerItems.value.toMutableList().apply {
+                        add(newListPosition, DrawerMenuItem.map(newList))
+                    }
+
+                    drawerMenuItemClicked(newListPosition)
+                }
+            }
+        }
+    }
+
     private suspend fun updateTaskItem(position: Int, update: suspend Task.() -> Task) {
         _items.update { list ->
             list.toMutableList().apply {
@@ -231,6 +262,13 @@ class MainViewModel @Inject constructor(
                     type = DrawerMenuItem.Type.Button(BUTTON_CREATE_LIST)
                 )
             )
+        }
+    }
+
+    private fun closeDrawer() {
+        container.launch(Dispatchers.Main) {
+            delay(150)
+            container.raiseEffect(CloseDrawer)
         }
     }
 

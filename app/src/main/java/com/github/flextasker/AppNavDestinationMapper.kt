@@ -7,6 +7,7 @@ object AppNavDestinationMapper : NavDestinationMapper {
     override fun map(destination: NavDestination): Int {
         return when (destination) {
             NavDestination.AddTask -> R.id.navigateAddTask
+            NavDestination.EnterText -> R.id.navigateEnterText
         }
     }
 }
