@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/enter_text"
+    app:startDestination="@id/enterTextDialogFragment">
+
+    <dialog
+        android:id="@+id/enterTextDialogFragment"
+        android:name="com.github.flextasker.feature.entertext.EnterTextDialogFragment"
+        android:label="EnterTextDialog"
+        tools:layout="@layout/dialog_enter_text">
+
+        <argument
+            android:name="title"
+            app:argType="com.github.flextasker.core.ui.text.ParcelableTxt" />
+
+        <argument
+            android:name="initText"
+            app:argType="com.github.flextasker.core.ui.text.ParcelableTxt"
+            app:nullable="true" />
+
+        <argument
+            android:name="actionId"
+            app:argType="integer" />
+
+    </dialog>
+
+</navigation>

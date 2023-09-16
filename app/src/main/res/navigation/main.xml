@@ -15,6 +15,10 @@
             android:id="@+id/navigateAddTask"
             app:destination="@id/add_task"/>
 
+        <action
+            android:id="@+id/navigateEnterText"
+            app:destination="@id/enter_text" />
+
     </fragment>
 
 </navigation>

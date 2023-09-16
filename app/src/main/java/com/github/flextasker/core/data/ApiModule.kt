@@ -2,8 +2,8 @@ package com.github.flextasker.core.data
 
 import com.github.flextasker.core.api.TaskApi
 import com.github.flextasker.core.api.TaskListApi
-import com.github.flextasker.core.api.mock.MockTaskApi
-import com.github.flextasker.core.api.mock.MockTaskListApi
+import com.github.flextasker.core.api.fake.FakeTaskApi
+import com.github.flextasker.core.api.fake.FakeTaskListApi
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -13,9 +13,9 @@ class ApiModule {
 
     @Provides
     @Singleton
-    fun provideTaskApi(): TaskApi = MockTaskApi()
+    fun provideTaskApi(): TaskApi = FakeTaskApi()
 
     @Provides
     @Singleton
-    fun provideTaskListApi(): TaskListApi = MockTaskListApi()
+    fun provideTaskListApi(): TaskListApi = FakeTaskListApi()
 }

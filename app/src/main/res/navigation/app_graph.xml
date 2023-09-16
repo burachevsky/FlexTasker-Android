@@ -6,5 +6,6 @@
 
     <include app:graph="@navigation/main" />
     <include app:graph="@navigation/add_task" />
+    <include app:graph="@navigation/enter_text" />
 
 </navigation>

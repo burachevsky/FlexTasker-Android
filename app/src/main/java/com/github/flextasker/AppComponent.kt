@@ -6,6 +6,8 @@ import com.github.flextasker.core.data.NetworkModule
 import com.github.flextasker.core.data.RepositoryModule
 import com.github.flextasker.feature.addtask.AddTaskComponent
 import com.github.flextasker.feature.addtask.AddTaskModule
+import com.github.flextasker.feature.entertext.EnterTextComponent
+import com.github.flextasker.feature.entertext.EnterTextModule
 import com.github.flextasker.feature.main.MainComponent
 import dagger.BindsInstance
 import dagger.Component
@@ -31,4 +33,6 @@ interface AppComponent {
     fun mainComponent(): MainComponent
 
     fun addTaskComponent(module: AddTaskModule): AddTaskComponent
+
+    fun enterTextComponent(module: EnterTextModule): EnterTextComponent
 }

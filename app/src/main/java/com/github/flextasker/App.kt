@@ -3,12 +3,15 @@ package com.github.flextasker
 import android.app.Application
 import com.github.flextasker.feature.addtask.AddTaskComponent
 import com.github.flextasker.feature.addtask.AddTaskModule
+import com.github.flextasker.feature.entertext.EnterTextComponent
+import com.github.flextasker.feature.entertext.EnterTextModule
 import com.github.flextasker.feature.main.MainComponent
 import timber.log.Timber
 
 class App : Application(),
     MainComponent.Provider,
-    AddTaskComponent.Provider {
+    AddTaskComponent.Provider,
+    EnterTextComponent.Provider {
 
     val appComponent: AppComponent by lazy(::initializeComponent)
 
@@ -27,5 +30,9 @@ class App : Application(),
 
     override fun addTaskComponent(module: AddTaskModule): AddTaskComponent {
         return appComponent.addTaskComponent(module)
+    }
+
+    override fun enterTextComponent(module: EnterTextModule): EnterTextComponent {
+        return appComponent.enterTextComponent(module)
     }
 }
