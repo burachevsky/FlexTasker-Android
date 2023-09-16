@@ -27,4 +27,8 @@ class TaskListRepositoryImpl @Inject constructor(
     override suspend fun getAllTaskLists(): List<TaskListInfo> {
         return api.getAll().map { it.asModel() }
     }
+
+    override suspend fun getCurrentTaskList(): TaskListInfo {
+        return api.getAll().first().asModel()
+    }
 }

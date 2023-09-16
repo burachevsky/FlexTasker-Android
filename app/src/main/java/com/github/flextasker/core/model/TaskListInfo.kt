@@ -1,8 +1,8 @@
 package com.github.flextasker.core.model
 
 data class TaskListInfo(
-    val id: Long,
-    val name: String,
+    val id: Long = 0,
+    val name: String = "",
     val type: TaskListType,
 )
 

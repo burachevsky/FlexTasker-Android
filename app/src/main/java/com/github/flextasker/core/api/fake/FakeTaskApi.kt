@@ -1,11 +1,11 @@
-package com.github.flextasker.core.api.mock
+package com.github.flextasker.core.api.fake
 
 import com.github.flextasker.core.api.TaskApi
 import com.github.flextasker.core.api.model.NetworkTask
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 
-class MockTaskApi: TaskApi {
+class FakeTaskApi: TaskApi {
 
     private val inMemoryCache = MutableStateFlow<List<NetworkTask>>(initialState())
 

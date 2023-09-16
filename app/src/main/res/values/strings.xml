@@ -8,4 +8,6 @@
     <string name="description">Description</string>
     <string name="name">Name</string>
     <string name="save">Save</string>
+    <string name="starred">Starred</string>
+    <string name="create_list">Create new list</string>
 </resources>

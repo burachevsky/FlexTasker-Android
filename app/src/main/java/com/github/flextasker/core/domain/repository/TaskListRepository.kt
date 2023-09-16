@@ -11,4 +11,6 @@ interface TaskListRepository {
     suspend fun deleteTaskList(id: Long)
 
     suspend fun getAllTaskLists(): List<TaskListInfo>
+
+    suspend fun getCurrentTaskList(): TaskListInfo
 }
