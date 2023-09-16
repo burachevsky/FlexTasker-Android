@@ -13,9 +13,10 @@ import com.github.flextasker.core.ui.text.of
 import com.github.flextasker.databinding.ListItemDrawerMenuItemBinding
 import com.github.flextasker.core.model.TaskListInfo
 import com.github.flextasker.core.model.TaskListType
+import com.github.flextasker.core.ui.text.ParcelableTxt
 
 data class DrawerMenuItem(
-    val text: Txt,
+    val text: ParcelableTxt,
     val icon: Int,
     val type: Type,
     val isSelected: Boolean = false,

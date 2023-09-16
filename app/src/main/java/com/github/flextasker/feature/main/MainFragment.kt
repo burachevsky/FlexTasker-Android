@@ -11,6 +11,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.github.flextasker.R
 import com.github.flextasker.core.eventbus.AppEvent
 import com.github.flextasker.core.eventbus.AppEventHandler
+import com.github.flextasker.core.model.TaskListType
 import com.github.flextasker.core.ui.container.DependentOnSystemBarsSize
 import com.github.flextasker.core.ui.container.ViewController
 import com.github.flextasker.core.ui.container.viewContainer
@@ -107,6 +108,18 @@ class MainFragment : Fragment(R.layout.fragment_main),
             binding.toolbar.title = text?.get(requireContext())
         }
 
+        collectOnStarted(viewModel.selectedListType) { listType ->
+            binding.bottomAppBarToolbar.apply {
+                menu.clear()
+                inflateMenu(
+                    when (listType) {
+                        TaskListType.USER -> R.menu.main_bottom_menu
+                        else -> R.menu.main_bottom_menu_default
+                    }
+                )
+            }
+        }
+
         collectOnStarted(viewModel.items, listAdapter::submitList)
         collectOnStarted(viewModel.drawerItems, drawerListAdapter::submitList)
     }
@@ -130,6 +143,8 @@ class MainFragment : Fragment(R.layout.fragment_main),
     private fun handleContextMenuAction(id: Int?): Boolean {
         when (id) {
             R.id.newTask -> viewModel.newTaskClicked()
+            R.id.editList -> viewModel.editList()
+            R.id.deleteList -> viewModel.deleteList()
         }
         return true
     }
