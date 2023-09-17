@@ -20,6 +20,10 @@ class FakeTaskListApi : TaskListApi {
         return newList.id
     }
 
+    override suspend fun read(id: Long): NetworkTaskList {
+        return inMemoryCache.value.find { it.id == id }!!
+    }
+
     override suspend fun update(list: NetworkTaskList) {
         inMemoryCache.update { taskLists ->
             taskLists.map {

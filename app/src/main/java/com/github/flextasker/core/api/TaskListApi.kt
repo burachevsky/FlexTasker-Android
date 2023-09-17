@@ -6,6 +6,8 @@ interface TaskListApi {
 
     suspend fun create(list: NetworkTaskList): Long
 
+    suspend fun read(id: Long): NetworkTaskList
+
     suspend fun update(list: NetworkTaskList)
 
     suspend fun delete(id: Long)

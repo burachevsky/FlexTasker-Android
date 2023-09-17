@@ -13,4 +13,6 @@ interface TaskListRepository {
     suspend fun getAllTaskLists(): List<TaskListInfo>
 
     suspend fun getCurrentTaskList(): TaskListInfo
+
+    suspend fun getTaskList(id: Long): TaskListInfo
 }

@@ -86,7 +86,9 @@ class MainViewModel @Inject constructor(
     }
 
     fun onTaskClick(position: Int) {
-
+        container.navigator {
+            navigateTaskDetails((items.value[position] as TaskItem).task.id)
+        }
     }
 
     fun onTaskCompleteClicked(position: Int) {
@@ -127,7 +129,7 @@ class MainViewModel @Inject constructor(
         container.raiseEffect {
             AlertDialog(
                 title = Txt.of(R.string.delete_task_list_dialog_title),
-                message = Txt.of(R.string.delete_task_list_dialog_message),
+                message = Txt.of(R.string.this_action_cannot_be_undone),
                 yes = AlertDialog.Button(
                     text = Txt.of(R.string.button_delete),
                     action = {

@@ -33,4 +33,13 @@ class MainNavigator(
             NavArg.ACTION_ID to actionId,
         )
     )
+
+    fun navigateTaskDetails(
+        taskId: Long,
+    ) = navigate(
+        NavDestination.TaskDetails,
+        bundleOf(
+            NavArg.TASK_ID to taskId
+        )
+    )
 }
