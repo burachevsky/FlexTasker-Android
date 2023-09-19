@@ -2,10 +2,10 @@ package com.github.flextasker.feature.taskdetails
 
 import androidx.lifecycle.ViewModel
 import com.github.flextasker.R
-import com.github.flextasker.core.domain.usecase.DeleteTask
-import com.github.flextasker.core.domain.usecase.EditTask
-import com.github.flextasker.core.domain.usecase.GetTask
-import com.github.flextasker.core.domain.usecase.GetTaskListInfo
+import com.github.flextasker.core.domain.usecase.task.DeleteTask
+import com.github.flextasker.core.domain.usecase.task.EditTask
+import com.github.flextasker.core.domain.usecase.task.GetTask
+import com.github.flextasker.core.domain.usecase.list.GetTaskListInfo
 import com.github.flextasker.core.eventbus.EventBus
 import com.github.flextasker.core.model.Task
 import com.github.flextasker.core.model.TaskListInfo

@@ -1,14 +1,14 @@
-package com.github.flextasker.core.domain.usecase
+package com.github.flextasker.core.domain.usecase.list
 
 import com.github.flextasker.core.domain.repository.TaskListRepository
 import com.github.flextasker.core.model.TaskListInfo
 import javax.inject.Inject
 
-class GetCurrentListInfo @Inject constructor(
+class CreateTaskList @Inject constructor(
     private val taskListRepository: TaskListRepository,
 ) {
 
-    suspend operator fun invoke(): TaskListInfo {
-        return taskListRepository.getCurrentTaskList()
+    suspend operator fun invoke(list: TaskListInfo): TaskListInfo {
+        return taskListRepository.createTaskList(list)
     }
 }

@@ -1,7 +1,7 @@
 package com.github.flextasker.feature.addtask
 
 import androidx.lifecycle.ViewModel
-import com.github.flextasker.core.domain.usecase.AddTask
+import com.github.flextasker.core.domain.usecase.task.AddTask
 import com.github.flextasker.core.eventbus.EventBus
 import com.github.flextasker.core.model.Task
 import com.github.flextasker.core.ui.container.VM

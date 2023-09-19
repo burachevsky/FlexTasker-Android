@@ -1,4 +1,4 @@
-package com.github.flextasker.core.domain.usecase
+package com.github.flextasker.core.domain.usecase.task
 
 import com.github.flextasker.core.domain.repository.TaskRepository
 import com.github.flextasker.core.model.Task
