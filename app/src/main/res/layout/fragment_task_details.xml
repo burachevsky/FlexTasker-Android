@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
@@ -40,6 +41,7 @@
         android:id="@+id/form"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/bottomAppBar"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -54,18 +56,19 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="12dp"
-                tools:text="My tasks"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="My tasks" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout"
+                style="@style/Widget.FlexTasker.TextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                app:boxBackgroundMode="none"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
                 app:endIconMode="custom"
-                app:hintEnabled="false"
+                app:hintEnabled="true"
                 app:layout_constraintTop_toBottomOf="@id/label">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -81,12 +84,13 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/descriptionInputLayout"
+                style="@style/Widget.FlexTasker.TextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="16dp"
                 android:scrollbarAlwaysDrawVerticalTrack="true"
-                app:boxBackgroundMode="none"
                 app:endIconMode="custom"
-                app:hintEnabled="false"
+                app:hintEnabled="true"
                 app:layout_constraintTop_toBottomOf="@id/textInputLayout">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -111,10 +115,12 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView
-            android:id="@+id/bottomAppBarToolbar"
+            android:id="@+id/isCompleteButton"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:layout_gravity="end"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
             android:background="@drawable/bg_drawer_menu_item_not_selected"
             android:gravity="center"
             android:paddingHorizontal="24dp"

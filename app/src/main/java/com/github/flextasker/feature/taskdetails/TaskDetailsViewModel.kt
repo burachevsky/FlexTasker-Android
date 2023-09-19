@@ -9,6 +9,7 @@ import com.github.flextasker.core.domain.usecase.GetTaskListInfo
 import com.github.flextasker.core.eventbus.EventBus
 import com.github.flextasker.core.model.Task
 import com.github.flextasker.core.model.TaskListInfo
+import com.github.flextasker.core.model.TaskListType
 import com.github.flextasker.core.ui.container.VM
 import com.github.flextasker.core.ui.container.viewModelContainer
 import com.github.flextasker.core.ui.event.AlertDialog
@@ -16,13 +17,17 @@ import com.github.flextasker.core.ui.event.TaskDeleted
 import com.github.flextasker.core.ui.event.TaskUpdated
 import com.github.flextasker.core.ui.navigation.Navigator
 import com.github.flextasker.core.ui.text.Txt
+import com.github.flextasker.core.ui.text.empty
 import com.github.flextasker.core.ui.text.of
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @OptIn(FlowPreview::class)
@@ -41,7 +46,7 @@ class TaskDetailsViewModel @Inject constructor(
 
     private var task: Task? = null
 
-    private val _listName = MutableStateFlow<String?>(null)
+    private val _listName = MutableStateFlow<Txt>(Txt.empty)
     val listName = _listName.asStateFlow()
 
     private val _isStarred = MutableStateFlow<Boolean?>(null)
@@ -56,7 +61,8 @@ class TaskDetailsViewModel @Inject constructor(
     private val _isComplete = MutableStateFlow<Boolean?>(null)
     val isComplete = _isComplete.asStateFlow()
 
-    private val updateExecutor = MutableSharedFlow<suspend () -> Unit>()
+    private val updateExecutor = MutableSharedFlow<Updater>()
+    private var currentUpdater: Updater? = null
 
     init {
         container.launch(Dispatchers.Main) {
@@ -65,7 +71,10 @@ class TaskDetailsViewModel @Inject constructor(
 
             this@TaskDetailsViewModel.task = task
             taskListInfo = listInfo
-            _listName.value = listInfo.name
+            _listName.value = when (listInfo.type) {
+                TaskListType.USER -> Txt.of(listInfo.name)
+                else -> Txt.of(R.string.default_list_name)
+            }
             _isStarred.value = task.isStarred
             _name.value = task.name
             _description.value = task.description
@@ -73,8 +82,30 @@ class TaskDetailsViewModel @Inject constructor(
         }
 
         container.launch(Dispatchers.Main) {
-            updateExecutor.debounce(500)
-                .collect { it() }
+            updateExecutor
+                .onEach {
+                    currentUpdater = it
+                }
+                .debounce(DEBOUNCE_TIMEOUT)
+                .collect { updater ->
+                    updater.job = launch {
+                        updater.action()
+                    }
+                    updater.job?.join()
+                }
+        }
+    }
+
+    fun back() {
+        container.launch(Dispatchers.Main) {
+            val millisSinceLastUpdate = System.currentTimeMillis() - (currentUpdater?.launchMillis ?: 0)
+            if (millisSinceLastUpdate < DEBOUNCE_TIMEOUT) {
+                delay(DEBOUNCE_TIMEOUT - millisSinceLastUpdate)
+                currentUpdater?.job?.join()
+            }
+            container.navigator {
+                back()
+            }
         }
     }
 
@@ -126,11 +157,16 @@ class TaskDetailsViewModel @Inject constructor(
             val updatedTask = task?.copy(name = text) ?: return
 
             container.launch(Dispatchers.Main) {
-                updateExecutor.emit {
-                    task = updatedTask
-                    editTask(updatedTask)
-                    eventBus.send(TaskUpdated(updatedTask))
-                }
+                updateExecutor.emit(
+                    Updater(
+                        action = {
+                            task = updatedTask
+                            editTask(updatedTask)
+                            eventBus.send(TaskUpdated(updatedTask))
+                        },
+                        launchMillis = System.currentTimeMillis()
+                    )
+                )
             }
         }
     }
@@ -141,12 +177,21 @@ class TaskDetailsViewModel @Inject constructor(
             val updatedTask = task?.copy(description = text) ?: return
 
             container.launch(Dispatchers.Main) {
-                updateExecutor.emit {
-                    task = updatedTask
-                    editTask(updatedTask)
-                    eventBus.send(TaskUpdated(updatedTask))
-                }
+                updateExecutor.emit(
+                    Updater(
+                        action = {
+                            task = updatedTask
+                            editTask(updatedTask)
+                            eventBus.send(TaskUpdated(updatedTask))
+                        },
+                        launchMillis = System.currentTimeMillis()
+                    )
+                )
             }
         }
-     }
+    }
+
+    companion object {
+        const val DEBOUNCE_TIMEOUT = 500L
+    }
 }

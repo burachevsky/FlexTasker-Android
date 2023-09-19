@@ -17,4 +17,6 @@
     <string name="button_delete">Delete</string>
     <string name="button_cancel">Cancel</string>
     <string name="delete_task">Delete task?</string>
+    <string name="mark_completed">Mark completed</string>
+    <string name="mark_uncompleted">Mark uncompleted</string>
 </resources>
