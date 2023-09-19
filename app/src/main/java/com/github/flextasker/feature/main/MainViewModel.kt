@@ -37,6 +37,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
@@ -60,6 +61,13 @@ class MainViewModel @Inject constructor(
 
     private val _drawerItems = MutableStateFlow<List<ListItem>>(emptyList())
     val drawerItems = _drawerItems.asStateFlow()
+
+    private val _loading = MutableStateFlow(true)
+    val loading = _loading.asStateFlow()
+
+    val noTasksYet = loading.combine(items) { loading, items ->
+        !loading && items.isEmpty()
+    }
 
     private val selectedList = MutableStateFlow<DrawerMenuItem?>(null)
 
@@ -206,6 +214,7 @@ class MainViewModel @Inject constructor(
                 loadTasks()
             } finally {
                 isRefreshing.value = false
+                _loading.value = false
             }
         }
     }

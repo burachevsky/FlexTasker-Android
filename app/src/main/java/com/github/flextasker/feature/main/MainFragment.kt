@@ -3,6 +3,7 @@ package com.github.flextasker.feature.main
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -122,6 +123,10 @@ class MainFragment : Fragment(R.layout.fragment_main),
 
         collectOnStarted(viewModel.items, listAdapter::submitList)
         collectOnStarted(viewModel.drawerItems, drawerListAdapter::submitList)
+
+        collectOnStarted(viewModel.noTasksYet) {
+            binding.noTasksLayout.isVisible = it
+        }
     }
 
     override fun fitSystemBars(statusBarHeight: Int, navigationBarHeight: Int) {

@@ -19,4 +19,5 @@
     <string name="delete_task">Delete task?</string>
     <string name="mark_completed">Mark completed</string>
     <string name="mark_uncompleted">Mark uncompleted</string>
+    <string name="no_tasks_yet">No tasks yet</string>
 </resources>
