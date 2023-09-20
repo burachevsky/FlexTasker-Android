@@ -9,6 +9,7 @@ import com.github.flextasker.feature.addtask.AddTaskModule
 import com.github.flextasker.feature.entertext.EnterTextComponent
 import com.github.flextasker.feature.entertext.EnterTextModule
 import com.github.flextasker.feature.main.MainComponent
+import com.github.flextasker.feature.settings.SettingsComponent
 import com.github.flextasker.feature.taskdetails.TaskDetailsComponent
 import com.github.flextasker.feature.taskdetails.TaskDetailsModule
 import dagger.BindsInstance
@@ -39,4 +40,6 @@ interface AppComponent {
     fun enterTextComponent(module: EnterTextModule): EnterTextComponent
 
     fun taskDetailsComponent(module: TaskDetailsModule): TaskDetailsComponent
+
+    fun settingsComponent(): SettingsComponent
 }

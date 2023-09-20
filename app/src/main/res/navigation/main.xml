@@ -13,7 +13,7 @@
 
         <action
             android:id="@+id/navigateAddTask"
-            app:destination="@id/add_task"/>
+            app:destination="@id/add_task" />
 
         <action
             android:id="@+id/navigateEnterText"
@@ -22,6 +22,10 @@
         <action
             android:id="@+id/navigateTaskDetails"
             app:destination="@id/task_details" />
+
+        <action
+            android:id="@+id/navigateSettings"
+            app:destination="@id/settings" />
 
     </fragment>
 

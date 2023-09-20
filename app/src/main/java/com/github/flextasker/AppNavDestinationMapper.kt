@@ -9,6 +9,7 @@ object AppNavDestinationMapper : NavDestinationMapper {
             NavDestination.AddTask -> R.id.navigateAddTask
             NavDestination.EnterText -> R.id.navigateEnterText
             NavDestination.TaskDetails -> R.id.navigateTaskDetails
+            NavDestination.Settings -> R.id.navigateSettings
         }
     }
 }
