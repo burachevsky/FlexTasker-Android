@@ -6,12 +6,15 @@ import com.github.flextasker.feature.addtask.AddTaskModule
 import com.github.flextasker.feature.entertext.EnterTextComponent
 import com.github.flextasker.feature.entertext.EnterTextModule
 import com.github.flextasker.feature.main.MainComponent
+import com.github.flextasker.feature.taskdetails.TaskDetailsComponent
+import com.github.flextasker.feature.taskdetails.TaskDetailsModule
 import timber.log.Timber
 
 class App : Application(),
     MainComponent.Provider,
     AddTaskComponent.Provider,
-    EnterTextComponent.Provider {
+    EnterTextComponent.Provider,
+    TaskDetailsComponent.Provider {
 
     val appComponent: AppComponent by lazy(::initializeComponent)
 
@@ -34,5 +37,9 @@ class App : Application(),
 
     override fun enterTextComponent(module: EnterTextModule): EnterTextComponent {
         return appComponent.enterTextComponent(module)
+    }
+
+    override fun taskDetailsComponent(module: TaskDetailsModule): TaskDetailsComponent {
+        return appComponent.taskDetailsComponent(module)
     }
 }

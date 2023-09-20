@@ -16,7 +16,7 @@ class TaskRepositoryImpl @Inject constructor(
         return task.copy(id = id)
     }
 
-    override suspend fun getTask(id: Long): Task {
+    override suspend fun readTask(id: Long): Task {
         return api.read(id).asModel()
     }
 

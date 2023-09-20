@@ -5,4 +5,5 @@ object NavArg {
     const val TITLE = "title"
     const val INIT_TEXT = "initText"
     const val ACTION_ID = "actionId"
+    const val TASK_ID = "taskId"
 }

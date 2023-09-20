@@ -43,6 +43,32 @@
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+        <LinearLayout
+            android:id="@+id/noTasksLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@id/bottomAppBar"
+            app:layout_constraintTop_toBottomOf="@id/toolbarLayout"
+            app:layout_constraintVertical_bias="0.4">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                app:srcCompat="@drawable/ic_check_box_big"
+                app:tint="?attr/colorControlNormal" />
+
+            <TextView
+                style="@style/TextAppearance.FlexTasker.H.2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/no_tasks_yet"
+                android:textAlignment="center"
+                android:textColor="?attr/colorControlNormal" />
+
+        </LinearLayout>
+
         <FrameLayout
             android:id="@+id/bottomAppBar"
             android:layout_width="match_parent"

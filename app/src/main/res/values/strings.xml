@@ -13,7 +13,11 @@
     <string name="edit_list_name">Edit list name</string>
     <string name="delete_list">Delete list</string>
     <string name="delete_task_list_dialog_title">Delete task list?</string>
-    <string name="delete_task_list_dialog_message">This action cannot be undone</string>
+    <string name="this_action_cannot_be_undone">This action cannot be undone</string>
     <string name="button_delete">Delete</string>
     <string name="button_cancel">Cancel</string>
+    <string name="delete_task">Delete task?</string>
+    <string name="mark_completed">Mark completed</string>
+    <string name="mark_uncompleted">Mark uncompleted</string>
+    <string name="no_tasks_yet">No tasks yet</string>
 </resources>

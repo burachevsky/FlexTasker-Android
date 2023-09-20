@@ -8,6 +8,7 @@ object AppNavDestinationMapper : NavDestinationMapper {
         return when (destination) {
             NavDestination.AddTask -> R.id.navigateAddTask
             NavDestination.EnterText -> R.id.navigateEnterText
+            NavDestination.TaskDetails -> R.id.navigateTaskDetails
         }
     }
 }

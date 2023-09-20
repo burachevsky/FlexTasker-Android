@@ -3,13 +3,13 @@ package com.github.flextasker.feature.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.flextasker.R
-import com.github.flextasker.core.domain.usecase.CreateTaskList
-import com.github.flextasker.core.domain.usecase.DeleteTaskList
-import com.github.flextasker.core.domain.usecase.EditTask
-import com.github.flextasker.core.domain.usecase.EditTaskList
-import com.github.flextasker.core.domain.usecase.GetCurrentListInfo
-import com.github.flextasker.core.domain.usecase.GetTaskLists
-import com.github.flextasker.core.domain.usecase.GetTasks
+import com.github.flextasker.core.domain.usecase.list.CreateTaskList
+import com.github.flextasker.core.domain.usecase.list.DeleteTaskList
+import com.github.flextasker.core.domain.usecase.task.EditTask
+import com.github.flextasker.core.domain.usecase.list.EditTaskList
+import com.github.flextasker.core.domain.usecase.list.GetCurrentListInfo
+import com.github.flextasker.core.domain.usecase.list.GetTaskLists
+import com.github.flextasker.core.domain.usecase.task.GetTasks
 import com.github.flextasker.core.eventbus.EventBus
 import com.github.flextasker.core.model.Task
 import com.github.flextasker.core.model.TaskListInfo
@@ -37,6 +37,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
@@ -60,6 +61,13 @@ class MainViewModel @Inject constructor(
 
     private val _drawerItems = MutableStateFlow<List<ListItem>>(emptyList())
     val drawerItems = _drawerItems.asStateFlow()
+
+    private val _loading = MutableStateFlow(true)
+    val loading = _loading.asStateFlow()
+
+    val noTasksYet = loading.combine(items) { loading, items ->
+        !loading && items.isEmpty()
+    }
 
     private val selectedList = MutableStateFlow<DrawerMenuItem?>(null)
 
@@ -86,7 +94,9 @@ class MainViewModel @Inject constructor(
     }
 
     fun onTaskClick(position: Int) {
-
+        container.navigator {
+            navigateTaskDetails((items.value[position] as TaskItem).task.id)
+        }
     }
 
     fun onTaskCompleteClicked(position: Int) {
@@ -127,7 +137,7 @@ class MainViewModel @Inject constructor(
         container.raiseEffect {
             AlertDialog(
                 title = Txt.of(R.string.delete_task_list_dialog_title),
-                message = Txt.of(R.string.delete_task_list_dialog_message),
+                message = Txt.of(R.string.this_action_cannot_be_undone),
                 yes = AlertDialog.Button(
                     text = Txt.of(R.string.button_delete),
                     action = {
@@ -204,6 +214,7 @@ class MainViewModel @Inject constructor(
                 loadTasks()
             } finally {
                 isRefreshing.value = false
+                _loading.value = false
             }
         }
     }

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Widget.FlexTasker.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxCornerRadiusBottomEnd">4dp</item>
+        <item name="boxCornerRadiusTopEnd">4dp</item>
+        <item name="boxCornerRadiusBottomStart">4dp</item>
+        <item name="boxCornerRadiusTopStart">4dp</item>
+        <item name="labelStyle">@style/TextAppearance.FlexTasker.Label</item>
+
+        <item name="placeholderTextAppearance">@style/TextAppearance.FlexTasker.Placeholder</item>
+        <item name="errorTextAppearance">@style/TextAppearance.FlexTasker.SecondaryBody</item>
+        <item name="endIconTint">?attr/colorOnSecondaryContainer</item>
+        <item name="helperTextTextAppearance">@style/TextAppearance.FlexTasker.SecondaryBody</item>
+        <item name="helperTextTextColor">?attr/colorOnSecondaryContainer</item>
+        <item name="hintTextAppearance">@style/TextAppearance.FlexTasker.Placeholder</item>
+        <!--        color when InputTextLayout is not focused-->
+        <item name="android:textColorHint">?attr/colorOnSecondaryContainer</item>
+        <!--        color when InputTextLayout is focused-->
+        <item name="hintTextColor">?android:attr/colorPrimary</item>
+        <item name="editTextStyle">@style/Widget.FlexTasker.EditText</item>
+        <item name="textAppearanceCaption">@style/TextAppearance.FlexTasker.Label</item>
+        <item name="android:textAppearance">@style/TextAppearance.FlexTasker.Body</item>
+    </style>
+
+    <style name="Widget.FlexTasker.EditText" parent="">
+        <item name="android:textAppearance">@style/TextAppearance.FlexTasker.Body</item>
+        <item name="android:scrollbars">vertical</item>
+        <item name="hintTextAppearance">@style/TextAppearance.FlexTasker.Label</item>
+        <item name="textAppearanceSubtitle1">@style/TextAppearance.FlexTasker.Body</item>
+        <item name="textAppearanceCaption">@style/TextAppearance.FlexTasker.Body</item>
+    </style>
+
+</resources>
