@@ -27,4 +27,6 @@
     <string name="settings_theme_dark">Dark</string>
     <string name="settings_dynamic_colors">Dynamic colors</string>
     <string name="settings_title">Settings</string>
+    <string name="account">Account</string>
+    <string name="log_out">Log out</string>
 </resources>

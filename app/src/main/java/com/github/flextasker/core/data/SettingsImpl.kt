@@ -2,7 +2,7 @@ package com.github.flextasker.core.data
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.github.flextasker.core.domain.usecase.settings.Theme
+import com.github.flextasker.core.model.Theme
 import com.github.flextasker.core.model.Settings
 import com.github.flextasker.core.preferences.APP_PREFS_NAME
 import com.github.flextasker.core.preferences.property

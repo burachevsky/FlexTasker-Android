@@ -3,8 +3,10 @@ package com.github.flextasker.feature.settings
 import androidx.lifecycle.ViewModel
 import com.github.flextasker.R
 import com.github.flextasker.core.domain.usecase.settings.GetSettings
-import com.github.flextasker.core.domain.usecase.settings.Theme
+import com.github.flextasker.core.domain.usecase.user.GetUserInfo
+import com.github.flextasker.core.model.Theme
 import com.github.flextasker.core.eventbus.EventBus
+import com.github.flextasker.core.model.UserInfo
 import com.github.flextasker.core.ui.container.VM
 import com.github.flextasker.core.ui.container.viewModelContainer
 import com.github.flextasker.core.ui.event.SwitchTheme
@@ -13,10 +15,14 @@ import com.github.flextasker.core.ui.navigation.Navigator
 import com.github.flextasker.core.ui.recycler.ListItem
 import com.github.flextasker.core.ui.text.Txt
 import com.github.flextasker.core.ui.text.of
+import com.github.flextasker.core.ui.utils.DividerItem
+import com.github.flextasker.core.ui.utils.EmptyItem
 import com.github.flextasker.core.ui.utils.SubtitleItem
 import com.github.flextasker.core.ui.utils.SwitchItem
+import com.github.flextasker.core.ui.utils.TextItem
 import com.github.flextasker.core.ui.utils.ToggleGroupItem
 import com.github.flextasker.core.ui.utils.ToggleOption
+import com.github.flextasker.feature.settings.item.LogoutItem
 import com.google.android.material.color.DynamicColors
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,6 +32,7 @@ import javax.inject.Inject
 
 class SettingsViewModel @Inject constructor(
     getSettings: GetSettings,
+    private val getUserInfo: GetUserInfo,
     private val eventBus: EventBus,
 ) : ViewModel(), VM<Navigator> {
 
@@ -35,6 +42,15 @@ class SettingsViewModel @Inject constructor(
     val items: StateFlow<List<ListItem>> = _items
 
     private val settings = getSettings()
+
+    private var userInfo: UserInfo? = null
+
+    init {
+        container.launch(Dispatchers.Main) {
+            userInfo = getUserInfo()
+            update()
+        }
+    }
 
     fun toggleGroupSelectionChanged(position: Int) {
         val item = items.get<ToggleGroupItem>(position)
@@ -47,12 +63,20 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun recreate() {
+    fun logout() {
+
+    }
+
+    private fun update() {
         _items.update { list() }
     }
 
     private fun list(): List<ListItem> {
         return listOfNotNull(
+            SubtitleItem(Txt.of(R.string.account)),
+            TextItem(Txt.of(userInfo?.email)),
+            EmptyItem(R.dimen.toggle_group_margin_top_small),
+            DividerItem,
             SubtitleItem(Txt.of(R.string.settings_appearance)),
             ToggleGroupItem(
                 title = Txt.of(R.string.settings_theme),
@@ -87,8 +111,10 @@ class SettingsViewModel @Inject constructor(
 
                 else -> null
             },
-
-            )
+            EmptyItem(R.dimen.switch_item_margin_top_small),
+            DividerItem,
+            LogoutItem,
+        )
     }
 
     private fun switchTheme() {

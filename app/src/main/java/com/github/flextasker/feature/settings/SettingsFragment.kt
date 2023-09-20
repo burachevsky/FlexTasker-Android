@@ -15,11 +15,15 @@ import com.github.flextasker.core.ui.ext.applicationAs
 import com.github.flextasker.core.ui.ext.collectOnStarted
 import com.github.flextasker.core.ui.ext.verticalLinearLayoutManager
 import com.github.flextasker.core.ui.recycler.CompositeAdapter
+import com.github.flextasker.core.ui.utils.EmptyItemAdapter
 import com.github.flextasker.core.ui.utils.SubtitleItemAdapter
 import com.github.flextasker.core.ui.utils.SwitchItemAdapter
+import com.github.flextasker.core.ui.utils.TextItemAdapter
 import com.github.flextasker.core.ui.utils.ToggleGroupItem
 import com.github.flextasker.core.ui.utils.ToggleGroupItemItemAdapter
 import com.github.flextasker.databinding.FragmentSettingsBinding
+import com.github.flextasker.feature.settings.item.LogoutItem
+import com.github.flextasker.feature.settings.item.LogoutItemAdapter
 import javax.inject.Inject
 
 class SettingsFragment : Fragment(R.layout.fragment_settings), ViewController<SettingsViewModel> {
@@ -34,10 +38,19 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), ViewController<Se
     private val listAdapter = CompositeAdapter(
         SwitchItemAdapter(),
         SubtitleItemAdapter(),
+        TextItemAdapter(),
+        EmptyItemAdapter(),
         ToggleGroupItemItemAdapter(
             object : ToggleGroupItem.Listener {
                 override fun onSelectionChanged(position: Int) {
                     viewModel.toggleGroupSelectionChanged(position)
+                }
+            }
+        ),
+        LogoutItemAdapter(
+            object : LogoutItem.Listener {
+                override fun onClick() {
+                    viewModel.logout()
                 }
             }
         )
@@ -61,7 +74,5 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), ViewController<Se
         binding.toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
-
-        viewModel.recreate()
     }
 }

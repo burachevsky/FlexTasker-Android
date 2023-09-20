@@ -1,4 +1,4 @@
-package com.github.flextasker.core.domain.usecase.settings
+package com.github.flextasker.core.model
 
 object Theme {
     const val SYSTEM = 0

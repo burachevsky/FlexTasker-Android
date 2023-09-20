@@ -12,7 +12,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.github.flextasker.core.domain.usecase.settings.Theme
+import com.github.flextasker.core.model.Theme
 import com.github.flextasker.core.eventbus.AppEvent
 import com.github.flextasker.core.eventbus.AppEventHandler
 import com.github.flextasker.core.ui.container.NavDestinationMapper
