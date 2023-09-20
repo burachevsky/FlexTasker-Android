@@ -75,7 +75,7 @@ class SettingsViewModel @Inject constructor(
         return listOfNotNull(
             SubtitleItem(Txt.of(R.string.account)),
             TextItem(Txt.of(userInfo?.email)),
-            EmptyItem(R.dimen.toggle_group_margin_top_small),
+            EmptyItem(R.dimen.settings_account_bottom_margin),
             DividerItem,
             SubtitleItem(Txt.of(R.string.settings_appearance)),
             ToggleGroupItem(
@@ -111,7 +111,7 @@ class SettingsViewModel @Inject constructor(
 
                 else -> null
             },
-            EmptyItem(R.dimen.switch_item_margin_top_small),
+            EmptyItem(R.dimen.settings_appearance_bottom_margin),
             DividerItem,
             LogoutItem,
         )
