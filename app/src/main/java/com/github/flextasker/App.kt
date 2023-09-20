@@ -9,6 +9,7 @@ import com.github.flextasker.feature.main.MainComponent
 import com.github.flextasker.feature.settings.SettingsComponent
 import com.github.flextasker.feature.taskdetails.TaskDetailsComponent
 import com.github.flextasker.feature.taskdetails.TaskDetailsModule
+import com.google.android.material.color.DynamicColors
 import timber.log.Timber
 
 class App : Application(),
@@ -22,6 +23,7 @@ class App : Application(),
 
     override fun onCreate() {
         super.onCreate()
+        DynamicColors.applyToActivitiesIfAvailable(this)
         Timber.plant(Timber.DebugTree())
     }
 
