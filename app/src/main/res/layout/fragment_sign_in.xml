@@ -3,10 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingHorizontal="32dp">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingHorizontal="32dp"
+    android:animateLayoutChanges="true">
 
     <TextView
-        android:id="@+id/appName"
+        android:id="@+id/appNameView"
         style="@style/TextAppearance.FlexTasker.Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,7 +26,7 @@
         android:layout_marginTop="16dp"
         app:boxBackgroundColor="?colorSurface"
         app:hintEnabled="true"
-        app:layout_constraintTop_toBottomOf="@id/appName">
+        app:layout_constraintTop_toBottomOf="@id/appNameView">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/emailEditText"
@@ -43,7 +45,7 @@
         style="@style/Widget.Material3.TextInputLayout.FilledBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         app:boxBackgroundColor="?colorSurface"
         app:endIconMode="password_toggle"
         app:hintEnabled="true"
@@ -61,13 +63,22 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <TextView
+        android:id="@+id/error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/passwordInputLayout"
+        android:layout_marginTop="32dp"
+        tools:text="Invalid email or password"
+        android:textColor="?colorError"/>
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/signInButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="@string/sign_in"
-        app:layout_constraintTop_toBottomOf="@id/passwordInputLayout" />
+        app:layout_constraintTop_toBottomOf="@id/error" />
 
     <TextView
         android:id="@+id/signUpButton"

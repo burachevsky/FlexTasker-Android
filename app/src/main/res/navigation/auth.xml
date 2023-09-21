@@ -9,6 +9,18 @@
         android:id="@+id/signInFragment"
         android:name="com.github.flextasker.feature.auth.signin.SignInFragment"
         android:label="SignInFragment"
-        tools:layout="@layout/fragment_sign_in" />
+        tools:layout="@layout/fragment_sign_in">
+
+        <action
+            android:id="@+id/navigateSignUp"
+            app:destination="@id/signUpFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.github.flextasker.feature.auth.signup.SignUpFragment"
+        android:label="SignUpFragment"
+        tools:layout="@layout/fragment_sign_up" />
 
 </navigation>

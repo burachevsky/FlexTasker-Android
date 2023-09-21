@@ -10,6 +10,7 @@ object AppNavDestinationMapper : NavDestinationMapper {
             NavDestination.EnterText -> R.id.navigateEnterText
             NavDestination.TaskDetails -> R.id.navigateTaskDetails
             NavDestination.Settings -> R.id.navigateSettings
+            NavDestination.SignUp -> R.id.navigateSignUp
         }
     }
 }

@@ -4,12 +4,15 @@ import androidx.lifecycle.ViewModel
 import com.github.flextasker.R
 import com.github.flextasker.core.domain.usecase.settings.GetSettings
 import com.github.flextasker.core.domain.usecase.user.GetUserInfo
+import com.github.flextasker.core.domain.usecase.user.Logout
 import com.github.flextasker.core.model.Theme
 import com.github.flextasker.core.eventbus.EventBus
 import com.github.flextasker.core.model.UserInfo
 import com.github.flextasker.core.ui.container.VM
 import com.github.flextasker.core.ui.container.viewModelContainer
+import com.github.flextasker.core.ui.event.AlertDialog
 import com.github.flextasker.core.ui.event.SwitchTheme
+import com.github.flextasker.core.ui.event.UserChanged
 import com.github.flextasker.core.ui.ext.get
 import com.github.flextasker.core.ui.navigation.Navigator
 import com.github.flextasker.core.ui.recycler.ListItem
@@ -34,6 +37,7 @@ class SettingsViewModel @Inject constructor(
     getSettings: GetSettings,
     private val getUserInfo: GetUserInfo,
     private val eventBus: EventBus,
+    private val logout: Logout,
 ) : ViewModel(), VM<Navigator> {
 
     override val container = viewModelContainer()
@@ -63,8 +67,23 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun logout() {
-
+    fun logoutClicked() {
+        container.raiseEffect {
+            AlertDialog(
+                title = Txt.of(R.string.log_out_warning),
+                message = Txt.of(R.string.log_out_message),
+                yes = AlertDialog.Button(
+                    text = Txt.of(R.string.log_out),
+                    action = {
+                        container.launch(Dispatchers.Main) {
+                            logout()
+                            eventBus.send(UserChanged)
+                        }
+                    }
+                ),
+                no = AlertDialog.Button(Txt.of(R.string.button_cancel))
+            )
+        }
     }
 
     private fun update() {

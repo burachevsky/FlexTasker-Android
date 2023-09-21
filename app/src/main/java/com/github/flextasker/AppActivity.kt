@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.getSystemService
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -26,6 +27,9 @@ import com.github.flextasker.core.ui.ext.getStatusBarHeightFromSystemAttribute
 import com.github.flextasker.core.ui.navigation.NavControllerProvider
 import com.github.flextasker.databinding.ActivityAppBinding
 import com.google.android.material.color.DynamicColors
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class AppActivity : AppCompatActivity(),
@@ -48,10 +52,25 @@ class AppActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_app)
 
-        if (AppSystemBarsSizeProvider.isInitialized) {
-            setContent()
-        } else {
-            initializeSystemBarsAndSetContent()
+        initializeSystemBarsAndSetContent()
+
+        lifecycleScope.launch {
+            viewModel.appBarsInitialized
+                .combine(viewModel.userSignedIn) { appBarsInitialized, userSignedIn ->
+                    when {
+                        appBarsInitialized -> when (userSignedIn) {
+                            true -> R.navigation.app_graph
+                            false -> R.navigation.auth
+                            else -> null
+                        }
+                        else -> null
+                    }
+                }
+                .filterNotNull()
+                .collect { graphId ->
+                    contentIsSet
+                    provideNavController().setGraph(graphId)
+                }
         }
     }
 
@@ -60,7 +79,7 @@ class AppActivity : AppCompatActivity(),
             if (contentIsSet)
                 return@setOnApplyWindowInsetsListener insets
 
-            if (!AppSystemBarsSizeProvider.isInitialized) {
+            if (!viewModel.appBarsInitialized.value) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                     val statusBarInsets = insets.getInsets(WindowInsetsCompat.Type.statusBars())
 
@@ -75,18 +94,11 @@ class AppActivity : AppCompatActivity(),
                     navigationBarHeight = getNavigationBarHeightFromSystemAttribute()
                 }
 
-                AppSystemBarsSizeProvider.isInitialized = true
+                viewModel.setAppBarsInitialized(true)
             }
-
-            setContent()
 
             insets
         }
-    }
-
-    private fun setContent() {
-        contentIsSet = true
-        provideNavController().setGraph(R.navigation.app_graph)
     }
 
     override fun provideNavController(): NavController {
