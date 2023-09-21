@@ -3,6 +3,7 @@ package com.github.flextasker
 import android.app.Application
 import com.github.flextasker.feature.addtask.AddTaskComponent
 import com.github.flextasker.feature.addtask.AddTaskModule
+import com.github.flextasker.feature.auth.AuthComponent
 import com.github.flextasker.feature.entertext.EnterTextComponent
 import com.github.flextasker.feature.entertext.EnterTextModule
 import com.github.flextasker.feature.main.MainComponent
@@ -17,7 +18,8 @@ class App : Application(),
     AddTaskComponent.Provider,
     EnterTextComponent.Provider,
     TaskDetailsComponent.Provider,
-    SettingsComponent.Provider {
+    SettingsComponent.Provider,
+    AuthComponent.Provider {
 
     val appComponent: AppComponent by lazy(::initializeComponent)
 
@@ -49,5 +51,9 @@ class App : Application(),
 
     override fun settingsComponent(): SettingsComponent {
         return appComponent.settingsComponent()
+    }
+
+    override fun authComponent(): AuthComponent {
+        return appComponent.authComponent()
     }
 }

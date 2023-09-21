@@ -29,4 +29,8 @@
     <string name="settings_title">Settings</string>
     <string name="account">Account</string>
     <string name="log_out">Log out</string>
+    <string name="sign_in">Sign in</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="sign_up">Sign up</string>
 </resources>
