@@ -101,6 +101,10 @@ class MainFragment : Fragment(R.layout.fragment_main),
             binding.drawerLayout.open()
         }
 
+        binding.toolbar.setOnMenuItemClickListener {
+            handleContextMenuAction(it.itemId)
+        }
+
         binding.bottomAppBarToolbar.setOnMenuItemClickListener {
            handleContextMenuAction(it.itemId)
         }
@@ -150,6 +154,7 @@ class MainFragment : Fragment(R.layout.fragment_main),
             R.id.newTask -> viewModel.newTaskClicked()
             R.id.editList -> viewModel.editList()
             R.id.deleteList -> viewModel.deleteList()
+            R.id.settings -> viewModel.navigateSettings()
         }
         return true
     }

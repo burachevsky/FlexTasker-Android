@@ -42,4 +42,6 @@ class MainNavigator(
             NavArg.TASK_ID to taskId
         )
     )
+
+    fun navigateSettings() = navigate(NavDestination.Settings)
 }

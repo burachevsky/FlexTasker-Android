@@ -4,4 +4,5 @@ sealed class NavDestination {
     data object AddTask : NavDestination()
     data object EnterText : NavDestination()
     data object TaskDetails : NavDestination()
+    data object Settings : NavDestination()
 }

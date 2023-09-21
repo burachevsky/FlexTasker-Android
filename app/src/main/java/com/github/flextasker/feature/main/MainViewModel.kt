@@ -173,6 +173,12 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun navigateSettings() {
+        container.navigator {
+            navigateSettings()
+        }
+    }
+
     fun drawerMenuItemClicked(position: Int) {
         val menuItem = drawerItems.value[position] as DrawerMenuItem
         when (menuItem.type) {
