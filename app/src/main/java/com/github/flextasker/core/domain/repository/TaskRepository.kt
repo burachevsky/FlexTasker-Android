@@ -13,6 +13,4 @@ interface TaskRepository {
     suspend fun editTask(task: Task)
 
     suspend fun deleteTask(id: Long)
-
-    suspend fun starTask(id: Long, isStarred: Boolean)
 }

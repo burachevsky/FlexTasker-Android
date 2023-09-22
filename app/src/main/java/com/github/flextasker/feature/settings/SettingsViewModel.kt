@@ -2,12 +2,11 @@ package com.github.flextasker.feature.settings
 
 import androidx.lifecycle.ViewModel
 import com.github.flextasker.R
+import com.github.flextasker.core.domain.AccountInfo
 import com.github.flextasker.core.domain.usecase.settings.GetSettings
-import com.github.flextasker.core.domain.usecase.user.GetUserInfo
 import com.github.flextasker.core.domain.usecase.user.Logout
 import com.github.flextasker.core.model.Theme
 import com.github.flextasker.core.eventbus.EventBus
-import com.github.flextasker.core.model.UserInfo
 import com.github.flextasker.core.ui.container.VM
 import com.github.flextasker.core.ui.container.viewModelContainer
 import com.github.flextasker.core.ui.event.AlertDialog
@@ -35,7 +34,7 @@ import javax.inject.Inject
 
 class SettingsViewModel @Inject constructor(
     getSettings: GetSettings,
-    private val getUserInfo: GetUserInfo,
+    private val accountInfo: AccountInfo,
     private val eventBus: EventBus,
     private val logout: Logout,
 ) : ViewModel(), VM<Navigator> {
@@ -47,13 +46,8 @@ class SettingsViewModel @Inject constructor(
 
     private val settings = getSettings()
 
-    private var userInfo: UserInfo? = null
-
     init {
-        container.launch(Dispatchers.Main) {
-            userInfo = getUserInfo()
-            update()
-        }
+        update()
     }
 
     fun toggleGroupSelectionChanged(position: Int) {
@@ -93,7 +87,7 @@ class SettingsViewModel @Inject constructor(
     private fun list(): List<ListItem> {
         return listOfNotNull(
             SubtitleItem(Txt.of(R.string.account)),
-            TextItem(Txt.of(userInfo?.email)),
+            TextItem(Txt.of(accountInfo.userName)),
             EmptyItem(R.dimen.settings_account_bottom_margin),
             DividerItem,
             SubtitleItem(Txt.of(R.string.settings_appearance)),

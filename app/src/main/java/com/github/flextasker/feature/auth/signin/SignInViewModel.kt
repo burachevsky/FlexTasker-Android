@@ -2,6 +2,7 @@ package com.github.flextasker.feature.auth.signin
 
 import androidx.lifecycle.ViewModel
 import com.github.flextasker.R
+import com.github.flextasker.core.domain.exception.ApiException
 import com.github.flextasker.core.domain.usecase.user.SignIn
 import com.github.flextasker.core.eventbus.EventBus
 import com.github.flextasker.core.ui.container.VM
@@ -38,8 +39,12 @@ class SignInViewModel @Inject constructor(
     fun signInClicked() {
         if (validate()) {
             container.launch(Dispatchers.IO) {
-                signIn(email, password)
-                eventBus.send(UserChanged)
+                try {
+                    signIn(email, password)
+                    eventBus.send(UserChanged)
+                } catch (e: ApiException) {
+                    _error.emit(Txt.of(e.message))
+                }
             }
         }
     }

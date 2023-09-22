@@ -2,6 +2,7 @@ package com.github.flextasker.feature.auth.signup
 
 import androidx.lifecycle.ViewModel
 import com.github.flextasker.R
+import com.github.flextasker.core.domain.exception.ApiException
 import com.github.flextasker.core.domain.usecase.user.SignUp
 import com.github.flextasker.core.eventbus.EventBus
 import com.github.flextasker.core.ui.container.VM
@@ -33,8 +34,12 @@ class SignUpViewModel @Inject constructor(
     fun signUpClicked() {
         if (validate()) {
             container.launch(Dispatchers.Main) {
-                signUp(email, password, confirmPassword)
-                eventBus.send(UserChanged)
+                try {
+                    signUp(email, password, confirmPassword)
+                    eventBus.send(UserChanged)
+                } catch (e: ApiException) {
+                    _error.emit(Txt.of(e.message))
+                }
             }
         }
     }

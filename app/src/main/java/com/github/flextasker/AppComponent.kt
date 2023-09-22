@@ -3,6 +3,7 @@ package com.github.flextasker
 import android.content.Context
 import com.github.flextasker.core.data.ApiModule
 import com.github.flextasker.core.data.NetworkModule
+import com.github.flextasker.core.data.PreferencesModule
 import com.github.flextasker.core.data.RepositoryModule
 import com.github.flextasker.feature.addtask.AddTaskComponent
 import com.github.flextasker.feature.addtask.AddTaskModule
@@ -23,6 +24,7 @@ import javax.inject.Singleton
         ApiModule::class,
         NetworkModule::class,
         RepositoryModule::class,
+        PreferencesModule::class,
     ]
 )
 interface AppComponent {

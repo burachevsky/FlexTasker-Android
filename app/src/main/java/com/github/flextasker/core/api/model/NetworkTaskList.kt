@@ -1,11 +1,19 @@
 package com.github.flextasker.core.api.model
 
-data class NetworkTaskList(
-    val id: Long,
-    val name: String,
-    val type: NetworkTaskListType,
-)
+import com.google.gson.annotations.SerializedName
 
-enum class NetworkTaskListType {
-    DEFAULT, USER
+data class NetworkTaskList(
+    @SerializedName("id")
+    val id: Long,
+
+    @SerializedName("name")
+    val name: String,
+
+    @SerializedName("listType")
+    val type: Int,
+) {
+    companion object {
+        const val TYPE_DEFAULT = 0
+        const val TYPE_USER = 1
+    }
 }

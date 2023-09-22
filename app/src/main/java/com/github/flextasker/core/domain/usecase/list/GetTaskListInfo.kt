@@ -9,6 +9,6 @@ class GetTaskListInfo @Inject constructor(
 ) {
 
     suspend operator fun invoke(id: Long): TaskListInfo {
-        return taskListRepository.getTaskList(id)
+        return taskListRepository.getTaskListInfo(id)
     }
 }
