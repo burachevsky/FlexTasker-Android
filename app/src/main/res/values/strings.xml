@@ -29,4 +29,14 @@
     <string name="settings_title">Settings</string>
     <string name="account">Account</string>
     <string name="log_out">Log out</string>
+    <string name="sign_in">Sign in</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="sign_up">Sign up</string>
+    <string name="log_out_warning">Log out?</string>
+    <string name="log_out_message">Your tasks and lists will not be accessible until you sign in</string>
+    <string name="invalid_email_format">Invalid email format</string>
+    <string name="empty_password_error">Password cannot be empty</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="passwords_are_not_the_same">Passwords are not the same</string>
 </resources>

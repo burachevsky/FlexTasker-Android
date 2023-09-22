@@ -50,7 +50,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings), ViewController<Se
         LogoutItemAdapter(
             object : LogoutItem.Listener {
                 override fun onClick() {
-                    viewModel.logout()
+                    viewModel.logoutClicked()
                 }
             }
         )

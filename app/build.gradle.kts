@@ -66,6 +66,7 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.fragment)
     implementation(libs.androidx.swiperefreshlayout)
+    implementation(libs.androidx.security)
     implementation(libs.material)
     implementation(libs.viewbindingdelegate)
     implementation(libs.dagger)

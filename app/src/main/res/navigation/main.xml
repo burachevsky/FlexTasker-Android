@@ -21,11 +21,19 @@
 
         <action
             android:id="@+id/navigateTaskDetails"
-            app:destination="@id/task_details" />
+            app:destination="@id/task_details"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_left" />
 
         <action
             android:id="@+id/navigateSettings"
-            app:destination="@id/settings" />
+            app:destination="@id/settings"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_left" />
 
     </fragment>
 

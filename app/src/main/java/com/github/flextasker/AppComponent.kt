@@ -6,6 +6,7 @@ import com.github.flextasker.core.data.NetworkModule
 import com.github.flextasker.core.data.RepositoryModule
 import com.github.flextasker.feature.addtask.AddTaskComponent
 import com.github.flextasker.feature.addtask.AddTaskModule
+import com.github.flextasker.feature.auth.AuthComponent
 import com.github.flextasker.feature.entertext.EnterTextComponent
 import com.github.flextasker.feature.entertext.EnterTextModule
 import com.github.flextasker.feature.main.MainComponent
@@ -42,4 +43,6 @@ interface AppComponent {
     fun taskDetailsComponent(module: TaskDetailsModule): TaskDetailsComponent
 
     fun settingsComponent(): SettingsComponent
+
+    fun authComponent(): AuthComponent
 }
