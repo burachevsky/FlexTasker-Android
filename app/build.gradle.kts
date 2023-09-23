@@ -1,3 +1,7 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     id("com.android.application")
     kotlin("android")
@@ -10,28 +14,36 @@ android {
     namespace = "com.github.flextasker"
     compileSdk = 34
 
+    buildFeatures {
+        viewBinding = true
+        buildConfig = true
+    }
+
     defaultConfig {
+        val secretProperties = Properties().also {
+            it.load(FileInputStream(rootProject.file("secret.properties")))
+        }
+
         applicationId = "com.github.flextasker"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
         versionName = "0.1"
-
+        archivesName = "FlexTasker-$versionName"
+        buildConfigField("String", "API_BASE_URL", "${secretProperties["API_BASE_URL"]}")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildFeatures {
-        viewBinding = true
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isDebuggable = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs.getByName("debug")
         }
         debug {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
 

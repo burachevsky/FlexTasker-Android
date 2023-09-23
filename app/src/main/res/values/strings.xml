@@ -39,4 +39,6 @@
     <string name="empty_password_error">Password cannot be empty</string>
     <string name="confirm_password">Confirm password</string>
     <string name="passwords_are_not_the_same">Passwords are not the same</string>
+    <string name="something_went_wrong">Something went wrong...</string>
+    <string name="button_ok">OK</string>
 </resources>

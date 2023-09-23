@@ -12,8 +12,7 @@ class TaskRepositoryImpl @Inject constructor(
 ) : TaskRepository {
 
     override suspend fun addTask(task: Task): Task {
-        val id = api.create(task.asNetwork())
-        return task.copy(id = id)
+        return api.create(task.asNetwork()).asModel()
     }
 
     override suspend fun readTask(id: Long): Task {
@@ -21,7 +20,13 @@ class TaskRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getTasks(listId: Long?, filterStarred: Boolean): List<Task> {
-        return api.search(listId, filterStarred).map { it.asModel() }
+        val list = when {
+            listId != null -> api.getTaskList(listId)
+            filterStarred -> api.getStarredTasks()
+            else -> api.getTasks()
+        }
+
+        return list.map { it.asModel() }
     }
 
     override suspend fun editTask(task: Task) {
@@ -30,9 +35,5 @@ class TaskRepositoryImpl @Inject constructor(
 
     override suspend fun deleteTask(id: Long) {
         api.delete(id)
-    }
-
-    override suspend fun starTask(id: Long, isStarred: Boolean) {
-        api.setStarred(id, isStarred)
     }
 }

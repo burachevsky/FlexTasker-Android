@@ -1,8 +1,12 @@
 package com.github.flextasker.core.ui.container
 
+import com.github.flextasker.R
 import com.github.flextasker.core.ui.event.Navigate
 import com.github.flextasker.core.eventbus.AppEvent
+import com.github.flextasker.core.ui.event.AlertDialog
 import com.github.flextasker.core.ui.navigation.Navigator
+import com.github.flextasker.core.ui.text.Txt
+import com.github.flextasker.core.ui.text.of
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -39,6 +43,12 @@ class ViewModelContainer<N : Navigator>(
             action()
         } catch (e: Exception) {
             Timber.e(e)
+            raiseEffect {
+                AlertDialog(
+                    message = Txt.of(R.string.something_went_wrong),
+                    yes = AlertDialog.Button(Txt.of(R.string.button_ok))
+                )
+            }
             null
         }
     }

@@ -7,7 +7,6 @@ import com.github.flextasker.core.domain.usecase.list.CreateTaskList
 import com.github.flextasker.core.domain.usecase.list.DeleteTaskList
 import com.github.flextasker.core.domain.usecase.task.EditTask
 import com.github.flextasker.core.domain.usecase.list.EditTaskList
-import com.github.flextasker.core.domain.usecase.list.GetCurrentListInfo
 import com.github.flextasker.core.domain.usecase.list.GetTaskLists
 import com.github.flextasker.core.domain.usecase.task.GetTasks
 import com.github.flextasker.core.eventbus.EventBus
@@ -47,7 +46,6 @@ class MainViewModel @Inject constructor(
     private val getTasks: GetTasks,
     private val editTask: EditTask,
     private val getTaskLists: GetTaskLists,
-    private val getCurrentListInfo: GetCurrentListInfo,
     private val createTaskList: CreateTaskList,
     private val deleteTaskList: DeleteTaskList,
     private val editTaskList: EditTaskList,
@@ -236,9 +234,17 @@ class MainViewModel @Inject constructor(
     }
 
     private suspend fun init() {
-        val selected = DrawerMenuItem.map(getCurrentListInfo(), isSelected = true)
+        val taskLists = getTaskLists()
+
+        val selected = DrawerMenuItem.map(
+            taskLists.firstOrNull { it.type == TaskListType.DEFAULT }
+                ?: throw IllegalStateException(),
+
+            isSelected = true
+        )
+
         selectedList.value = selected
-        _drawerItems.value = composeDrawerMenuList(getTaskLists(), selected)
+        _drawerItems.value = composeDrawerMenuList(taskLists, selected)
     }
 
     private fun handleTaskEvent(event: TaskEvent) {

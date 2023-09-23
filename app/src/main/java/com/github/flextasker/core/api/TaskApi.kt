@@ -1,18 +1,37 @@
 package com.github.flextasker.core.api
 
 import com.github.flextasker.core.api.model.NetworkTask
+import retrofit2.Response
+import retrofit2.http.Body
+import retrofit2.http.DELETE
+import retrofit2.http.GET
+import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Path
 
 interface TaskApi {
 
-    suspend fun create(task: NetworkTask): Long
+    @POST("getTasks")
+    suspend fun getTasks(): List<NetworkTask>
 
-    suspend fun read(id: Long): NetworkTask
+    @POST("createTask")
+    suspend fun create(@Body task: NetworkTask): NetworkTask
 
-    suspend fun search(listId: Long?, filterStarred: Boolean): List<NetworkTask>
+    @GET("getTask/{id}")
+    suspend fun read(@Path("id") id: Long): NetworkTask
 
-    suspend fun update(task: NetworkTask)
+    @GET("getTaskList/{id}")
+    suspend fun getTaskList(@Path("id") listId: Long): List<NetworkTask>
 
-    suspend fun delete(id: Long)
+    @GET("getStarredTasks")
+    suspend fun getStarredTasks(): List<NetworkTask>
 
-    suspend fun setStarred(id: Long, isStarred: Boolean)
+    @PUT("updateTask/{id}")
+    suspend fun update(
+        @Body task: NetworkTask,
+        @Path("id") id: Long = task.id,
+    ): Response<Unit>
+
+    @DELETE("deleteTask/{id}")
+    suspend fun delete(@Path("id") id: Long): Response<Unit>
 }

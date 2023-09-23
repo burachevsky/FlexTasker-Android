@@ -2,8 +2,8 @@ package com.github.flextasker
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.github.flextasker.core.domain.AccountInfo
 import com.github.flextasker.core.domain.usecase.settings.GetSettings
-import com.github.flextasker.core.domain.usecase.user.GetUserInfo
 import com.github.flextasker.core.eventbus.EventBus
 import com.github.flextasker.core.model.Settings
 import com.github.flextasker.core.ui.container.VM
@@ -20,7 +20,7 @@ import javax.inject.Inject
 class AppViewModel @Inject constructor(
     eventBus: EventBus,
     getSettings: GetSettings,
-    private val getUserInfo: GetUserInfo,
+    private val accountInfo: AccountInfo,
 ) : ViewModel(), VM<Navigator> {
 
     override val container = viewModelContainer()
@@ -59,7 +59,7 @@ class AppViewModel @Inject constructor(
 
     private fun update() {
         container.launch(Dispatchers.IO) {
-            _userSignedIn.emit(getUserInfo() != null)
+            _userSignedIn.emit(accountInfo.isUserSignedIn())
         }
     }
 }
